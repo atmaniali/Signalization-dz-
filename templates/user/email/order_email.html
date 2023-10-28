@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Reset Password</title>
+</head>
+<body>
+    <div class="container">
+        {% load static %}
+        
+        <img src="{{site}}{{setting.logo.url}}" width="200px">
+        <br> <br>
+        <div style="">
+            <h1>Confirmation de commande</h1>
+            <p>{{name}}, Merci pour votre commande!</p>
+            <p>order code : <strong>{{ordercode}}</strong> </p>
+        </div>
+        
+        <h2>Récapitulatif de commande</h2>
+        <p>{{current_datetime }}</p>
+        <br>
+        <table class="shopping-cart-table table table-hover" style="border: 1px solid black;border-collapse: collapse;" >
+            {% for rs in orders %}
+                <tr style="border: 1px solid black;border-collapse: collapse; ">
+                    <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Produit</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;" ><strong>{{ rs.product.title }}</strong></td>
+                </tr>
+                <tr style="border: 1px solid black;border-collapse: collapse;" >
+                    <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Prix(D.A)</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;" >{{ rs.price | floatformat:2 }} D.A</td>
+                </tr>
+                <tr style="border: 1px solid black;border-collapse: collapse;" >
+                    <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Quantité</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.quantity}}  </td>
+                </tr>
+                {% if rs.product.variant != 'None' %}
+
+                    {% if rs.variant.materiel  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;" >
+                            <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Matière</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.materiel.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.color  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;" >
+                            <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Couleur</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.color.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.demension  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;" >
+                            <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Démension</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.demension.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.fastner  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >
+                            <th style="border: 1px solid black;border-collapse: collapse;" >Fixation</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.fastner.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.typologie  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;" >
+                            <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Typographie</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.typologie.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.visuel  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;" >
+                            <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Visuel</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.visuel.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                    {% if rs.variant.adehesive  %}
+                        <tr style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >
+                            <th style="border: 1px solid black;border-collapse: collapse;" >Adhésif</th>
+                            <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.variant.adehesive.name }}  </td>
+                        </tr>
+                    {% endif %}
+
+                {% endif %}
+                <tr style="border: 1px solid black;border-collapse: collapse;" >
+                    <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Amount (D.A)</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.amount | floatformat:2 }} D.A</td>
+                </tr>
+                
+                {% comment %} <tr style="border: 1px solid black;border-collapse: collapse;" >
+                    <th style="border: 1px solid black;border-collapse: collapse;color:#FABC07" >Date</th>
+                    <td style="border: 1px solid black;border-collapse: collapse;" > {{ rs.create_at }} </td>
+                </tr> {% endcomment %}
+                <br>
+            {% endfor %}
+            <tr>
+                <th class="empty" colspan="3"></th>
+                <th>TOTAL</th>
+                <th colspan="2" class="total" style="color:#FABC07">{{total| floatformat:2}} D.A</th>
+            </tr>
+            {% comment %} <tr>
+                <th></th>
+                <td></td>
+            </tr> {% endcomment %}
+        </table>
+        <br>
+        {% comment %} <table class="shopping-cart-table table table-hover">
+            <thead>
+            <tr>
+                <th class="text-center" style="padding:10px">Id </th>
+                <th class="text-center" style="padding:10px">Product Name </th>
+                <th class="text-center" style="padding:10px">Price(D.A) </th>
+                <th class="text-center" style="padding:10px">Qauatity </th>
+                <th class="text-center" style="padding:10px">Amount </th>
+                <th class="text-center" style="padding:10px">Status </th>
+                <th class="text-center" style="padding:10px">Date </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rs in orders %}
+                <tr>
+                    <td class="text-center" style="padding:10px">
+                        <a href="{{site | safe}}product/{{rs.product_hash_pk}}/{{rs.product.slug}}/ %}">
+                            {% if rs.variant.image_id > 0 %}
+                                <img src="{{site}}{{rs.variant.image.url }}" alt="" style="height: 50px" alt = "image" >
+                            {% else %}
+                                <img src="{{site}}{{rs.product.image.url}}" alt="" style="height: 50px" alt = "image" >
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td class="text-center" style="padding:10px">{{ rs.product.title | truncatechars:30 }}   </td>
+                    <td class="text-center" style="padding:10px">{{ rs.price | floatformat:2 }} </td>
+                    <td class="text-center" style="padding:10px">{{ rs.quantity}} </td>
+                    <td class="text-center" style="padding:10px">{{ rs.amount | floatformat:2 }} </td>
+                    <td class="text-center" style="padding:10px">{{ rs.status}} </td>
+                    <td class="text-center" style="padding:10px">{{ rs.create_at}} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            
+            <tr>
+                <th class="empty" colspan="3"></th>
+                <th>TOTAL</th>
+                <th colspan="2" class="total" style="color:#FABC07">{{total| floatformat:2}} D.A</th>
+            </tr>
+        </tfoot>
+        </table> {% endcomment %}
+    </div>
+    <div>
+        
+    </div>
+    
+</body>
+</html>
+
+<!-- atmaniali1997@gmail.com -->

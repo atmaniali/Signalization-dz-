@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.first_name}} - Profile {% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accueil</a></li>
+            <li class="active">Profil de l’utilisateur </li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "user_panel.html" %}
+            </div>
+
+            <div class="col-md-9">
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Informations utilisateur.</h3>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="shopping-cart-table table">
+                        <tr>
+                            <th class="text-left">
+                                <a href="{% url 'profile:user_update' %}" class="primary-btn" style="margin:5px;">Mettre à jour le profil</a>
+                                <a href="{% url 'profile:user_password' %}" class="primary-btn" style="margin:5px;">Modifier le mot de passe</a>
+                            </th>
+                            {% if userprofile.image.url is not None %}
+                            <td><img src="{{ userprofile.image.url }}" style="border-radius: 45px; height: 200px "></td>
+                            {% else %}
+                            <td><img src="{{ request.session.userimage }}" style="height: 45px; border-radius: 30%"></td>
+                            {% endif %}
+                            
+                        </tr>
+                        <tr>
+                            <th class="text-left">Nom & Prénom</th>
+                            <td class="text-left">{{ user.last_name}} {{ user.first_name}}  </td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Email</th>
+                            <td class="text-left">{{ userprofile.user.email}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Téléphone</th>
+                            <td class="text-left">{{ userprofile.phone}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Addres</th>
+                            <td class="text-left">{{ userprofile.address}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left">Ville</th>
+                            <td class="text-left">{{ userprofile.city}}</td>
+                        </tr>
+                        {% comment %} <tr>
+                            <th class="text-left">Country</th>
+                            <td class="text-left">{{ profile.country}}</td>
+                        </tr> {% endcomment %}
+
+                    </table>
+                </div>
+                
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

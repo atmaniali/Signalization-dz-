@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Commande terminée{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb">
+    <div class="container" class="hidden-xs" >
+        <ul class="breadcrumb">
+            <li><a href="/">Accueil</a></li>
+            <li class="active">Commande terminée</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="order-summary clearfix">
+                    <div class="section-title">
+                        <h3 class="title">Commande terminée</h3>
+                    </div>
+                    <hr>
+                    <h2>Cher(e)  {{ user.first_name }} {{  user.last_name }}</h2>
+                    <hr>
+                    <h3>Votre commande est terminée</h3>
+                    <h3>Order Code : {{ ordercode }}</h3>
+                    <h3>Thank You</h3>
+                    <hr>
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+{% endblock body %}

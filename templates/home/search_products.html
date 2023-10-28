@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ query }} Result{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accueil</a></li>
+            <li class="active">{{ query }} results</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <!-- MAIN -->
+            <div id="main" class="col-md-12">
+                <!-- store top filter -->
+                
+                <!-- /store top filter -->
+
+                <!-- STORE -->
+                <div id="store">
+                    <!-- row -->
+                    <div class="row">
+
+                        <div class="col-md-12">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Product List</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th></th>
+                                    <th>Category</th>
+                                    <th class="text-center">Price</th>
+                                    {% comment %} <th class="text-center">Quantity</th> {% endcomment %}
+
+                                    <th class="text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for rs in products %}
+                                <tr>
+                                    <td class="thumb"><a href="{% url 'product:product_detail' rs.hash_pk rs.slug %}">
+                                        <img src="{% if rs.image.url is not null %}{{ rs.image.url }}{% endif %}" alt="{{rs.title | truncatechars:27 }}" style="height: 100px">
+                                    </a></td>
+
+                                    <td class="details"> 
+                                        <a href="{% url 'product:product_detail' rs.hash_pk rs.slug %}" style="font-weight:500;" >{{ rs.title | truncatechars:27 }}</a>	
+                                    </td>
+                                    <td class="details"> 
+                                        <a href="/product/{{ rs.category.slug }}/" style="font-weight:500;">{{ rs.category | truncatechars:27 }}</a>
+                                    </td>
+                                    <td class="price text-center">
+                                        <strong style="font-weight:500;">{{ rs.price }}</strong>
+                                    </td>
+                                    {% comment %} <td class="qty text-center">
+                                        <input class="input" type="number" value="1">
+                                    </td> {% endcomment %}
+
+                                    <td class="text-right">
+                                        <a href="/order/addtoshopcart/{{ rs.id }}" class="primary-btn add-to-cart">
+                                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                    </div>
+                    <!-- /row -->
+                </div>
+                <!-- /STORE -->
+
+                <!-- store bottom filter -->
+            
+                    
+                <!-- /store bottom filter -->
+            </div>
+            <!-- /MAIN -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+{% endblock body %}

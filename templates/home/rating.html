@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %} Rating Our Product{% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accueil</a></li>
+            <li class="active">Évaluation de notre produit</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+ <!-- section -->
+ <div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="product-reviews">
+                    {% for rs in ratings %}
+                        <div class="single-review">
+                            <div class="review-heading">
+                                <div><a href="#"><i class="fa fa-user-o"></i> {{ rs.user.first_name }}</a> </div>
+                                <div><b>{{ rs.subject }}</b> </div>
+                                <div><a href="#"><i class="fa fa-clock-o"></i> {{ rs.create_at}}</a></div>
+
+                                <div class="review-rating pull-right">
+                                    <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                                    <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                                </div>
+                            </div>
+                            <div class="review-body">
+                                <p>{{ rs.comment }}</p>
+                            </div>
+                        </div>
+                    {% empty %}
+                    Aucune donnée disponible!
+                        <br>
+                    {% endfor %}
+                    <!-- Pagination -->
+                    <ul class="reviews-pages">
+                        {% if ratings.has_previous %}
+                        <li><a href="?page={{ ratings.previous_page_number }}"><i class="fa fa-caret-left"></i></a></li>
+                        {% endif %}
+                        {% for rs in ratings.paginator.page_range %}
+                            {% if rs < 4 %}
+                                {% if ratings.number == rs %}
+                                    <li class="active">{{rs}}</li>
+                                {% else %}
+                                    <li><a href="?page={{rs}}">{{rs}}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if ratings.has_next %}
+                        <li><a href="?page={{ ratings.next_page_number }}"><i class="fa fa-caret-right"></i></a></li>
+                        {% endif %}
+                        {% comment %} <li class="active">1</li> {% endcomment %}
+                        {% comment %} <li><a href="#">2</a></li> {% endcomment %}
+                        {% comment %} <li><a href="#">3</a></li> {% endcomment %}
+                        {% comment %} <li><a href="#"><i class="fa fa-caret-right"></i></a></li> {% endcomment %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4 class="text-uppercase">Donnez votre avis</h4>
+                <p>Votre adresse e-mail ne sera pas publiée.</p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form class="review-form" action="{% url 'home:addrating' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input name="subject" class="input" type="text" placeholder="Votre sujet" />
+                    </div>
+                    <div class="form-group">
+                        <textarea name="comment" class="input" placeholder="Votre avis"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-rating">
+                            <strong class="text-uppercase">Your Rating: </strong>
+                            <div class="stars">
+                                <input type="radio" id="star5" name="rate" value="5" /><label for="star5"></label>
+                                <input type="radio" id="star4" name="rate" value="4" /><label for="star4"></label>
+                                <input type="radio" id="star3" name="rate" value="3" /><label for="star3"></label>
+                                <input type="radio" id="star2" name="rate" value="2" /><label for="star2"></label>
+                                <input type="radio" id="star1" name="rate" value="1" /><label for="star1"></label>
+                            </div>
+                        </div>
+                    </div>
+                    {% if user.id is not None %}
+                        <button class="primary-btn">Submit</button>
+                    {% else %}
+                        Vous devez être <a href="{% url 'profile:login' %}" class="text-danger" >connecté</a> pour publier un avis
+                    {% endif %}
+                </form>
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+{% endblock body %}

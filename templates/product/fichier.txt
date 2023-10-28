@@ -1,0 +1,59 @@
+'Dimension'
+'Materiel'
+'Color'
+'Type'
+'Fastener'
+'Visuel'
+'Typologie'
+'Adehesive_Appearence'
+'Dimension-Materiel'
+'Color-Fastner'
+'Typologie-Color'
+'Visuel-Adehesive_Appearence'
+'Dimension-Materiel-Colors'
+'Dimension-Materiel-Visuel'
+'Materiel-Visuel-Color'
+Dimension-Visuel-Adehesive_Appearence
+'Color-Type-Fastner'
+'Color-Type-Adehesive_Appearence'
+'Dimension-Materiel-Visuel-Type'
+Dimension-Color-Visuel-Adehesive_Appearence
+
+
+<tr>
+    <th class="text-center" style="padding:10px">Id </th>
+    <th class="text-center" style="padding:10px">Product Name </th>
+    {% comment %} <th class="text-left">Price </th> {% endcomment %}
+    <th class="text-center" style="padding:10px">Color </th>
+    <th class="text-center" style="padding:10px">Matier </th>
+    <th class="text-center" style="padding:10px">Dimension </th>
+    <th class="text-center" style="padding:10px">Fastener </th>
+    <th class="text-center" style="padding:10px">Visuel </th>
+    <th class="text-center" style="padding:10px">Typologie </th>
+    <th class="text-center" style="padding:10px">Adehesive </th>
+    {% comment %} <th class="text-left">Dimension </th> {% endcomment %}
+    
+</tr>
+{% for rs in orderitems %}
+    {% if rs.variant %}
+        <tr>
+            <td class="text-center" style="padding:10px">
+                <a href="/product/{{ rs.product_id }}/{{ rs.product.slug }}">   
+                    <img src="{{rs.product.image.url}}" alt="" style="height: 50px">    
+                </a>
+            </td>
+            <td class="text-center" style="padding:10px">{{ rs.product.title | truncatechars:30 }}  </td>
+            {% comment %} <td class="text-left">{{ rs.variant.price | floatformat:2 }} </td> {% endcomment %}
+            <td class="text-center" style="padding:10px">{% if rs.variant.color %}{{ rs.variant.color.name }}{% else %}-{% endif %} </td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.materiel %}{{ rs.variant.materiel.name }}{% else %}-{% endif %}</td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.demension %}{{ rs.variant.demension.name }}{% else %}-{% endif %}</td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.fastner %}{{ rs.variant.fastner.name }}{% else %}-{% endif %}</td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.visuel %}{{ rs.variant.visuel.name }}{% else %}-{% endif %}</td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.typologie %}{{ rs.variant.typologie.name }}{% else %}-{% endif %}</td>
+            <td class="text-center" style="padding:10px">{% if rs.variant.adehesive %}{{ rs.variant.adehesive.name }}{% else %}-{% endif %}</td>
+            {% comment %} <td class="text-left">{{ rs.variant.demension }} </td> {% endcomment %}
+            {% comment %} <td class="text-left">{{ rs.create_at}} </td> {% endcomment %}
+        </tr>
+    {% endif %}
+{% endfor %}
+

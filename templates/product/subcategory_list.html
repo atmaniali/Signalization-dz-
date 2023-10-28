@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Category Page - {{cat.title}}{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+{% load static %}
+<br> <br>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+  <div class="container">
+    <ul class="breadcrumb">
+      <li><a href="/">Accueil</a></li>
+      <li><a href="/product/">Produits</a></li>
+      {% for rs in category_ancestors %}
+      <li><a href="/product/{{rs.slug}}/">{{rs.title}}</a></li>
+      {% endfor %}
+      <li class="active">{{cat.title}}</li>
+    </ul>
+  </div>
+</div>
+{% comment %} {{category_ancestors}} {% endcomment %}
+<!-- /BREADCRUMB -->
+
+<!-- SUBCATEGORY CART -->
+<div class="section">
+    <div class="container">
+        <br>
+        <h1 style="width: 100%;text-align: center;color: #FABC07;">{{cat.title}}</h1>
+        <br>
+        <div class="row">
+            {% for rs in category %}
+            <div class="col-md-4 col-md-6">
+                <!-- Product Single -->
+                <div class="product product-single">
+                    <div class="product-thumb">
+                        {% if rs.image.url is not null %}
+                        <a class="main-btn quick-view" href="/product/{{rs.slug}}/" ><i class="fa fa-search-plus"></i> Quick view</a>
+                        <img src=" {{rs.image.url}}" alt="{{rs.title}}" style=""  />
+                        {% endif %}
+                    </div>
+                    <div class="product-body">
+                        <h3 class="product-name" style="width: 100%;text-align: center; height:50px"><a href="/product/{{rs.slug}}/" >{{rs.title }}</a></h3>   
+                        <hr style="margin-top: 1rem;border-top: 1px solid #f9bd00;margin-bottom: .5rem;max-width: 30%;"> 
+                    </div>
+                </div>
+                <!-- /Product Single -->
+            </div>
+            {% empty %}
+            {% if categors_is_leaf %}
+                
+                <br>
+                <p><strong style="color:#FABC07;margin-left:20px;" >{{count}}</strong> Produit trouvé :</strong>
+                <br> 
+                <div class="container">
+                    {% include 'store.html' %}
+                </div>   
+            {% else %}
+            <h3>No Data Found! </h3>
+            {{categors_is_leaf}} !!
+            {% endif %}
+            
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- /SUBCATEGORY CART -->
+
+{% endblock body %}

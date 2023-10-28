@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.first_name}} - Profile Order {% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb"- class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accuiel</a></li>
+            <li class="active">Les Commandes </li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "user_panel.html" %}
+            </div>
+
+            <div class="col-md-9">
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Liste des commandes</h3>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="shopping-cart-table table table-hover">
+                                <tr>
+                                    <th class="text-center" style="padding:10px">Id </th>
+                                    <th class="text-center" style="padding:10px">Nom </th>
+                                    <th class="text-center" style="padding:10px">Prénom </th>
+                                    <th class="text-centert" style="padding:10px">Total </th>
+                                    <th class="text-center" style="padding:10px">Status </th>
+                                    <th class="text-center" style="padding:10px">Date </th>
+                                    <th class="text-centert" style="padding:10px">Detail </th>
+                                </tr>
+                                {% for rs in orders %}
+                                    <tr>
+                                        <td class="text-center" style="padding:10px">{{ rs.id}} </td>
+                                        <td class="text-center" style="padding:10px">{{ rs.last_name}} </td>
+                                        <td class="text-center" style="padding:10px">{{ rs.first_name}} </td>
+                                        <td class="text-center" style="padding:10px">{{ rs.total|floatformat:2}} </td>
+                                        <td class="text-center" style="padding:10px">{{ rs.status}} </td>
+                                        <td class="text-center" style="padding:10px">{{ rs.create_at}} </td>
+                                        <td class="text-center" style="padding:10px"><a class="primary-btn" href="{% url 'profile:user_order_detail' rs.hash_pk %}"> Detail </a></td>
+                                    </tr>
+                                {% empty %}
+                                <h4 style="color:grey;">no data added !</h4>
+                                {% endfor %}
+                                
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

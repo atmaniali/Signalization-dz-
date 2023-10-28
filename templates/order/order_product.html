@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Order Product{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accueil</a></li>
+            <li class="active">Commande</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="container" >
+                <form id="checkout-form" class="clearfix" method="post" >
+                    {% csrf_token %}
+                    <div class="col-md-8">
+                        <div class="billing-details">
+                            <p>Déjà client ? <a href="{% url 'profile:login' %}">Connectez-vous</a></p>
+                            <div class="section-title">
+                                <h3 class="title">Détails de facturation</h3>
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" id="last_name" name="last_name" placeholder="Nom" value="{{user.last_name}}" required maxlength="20" >
+                            </div>
+
+                            <div class="form-group">
+                                <input class="input" type="text" id="first_name" name="first_name" placeholder="Prénom" value="{{user.first_name}}" required maxlength="20" >
+                            </div>
+                            
+                            {% comment %} <div class="form-group">
+                                <input class="input" type="email" name="email" placeholder="Email" value={{user.email}} maxlength="150"> {% endcomment %}
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="address" placeholder="Address" value="{{userprofile.address}}" maxlength="150" required>
+                            </div>
+                            <div class="form-group">
+                                <input class="input" type="text" name="city" placeholder="Ville" value="{{userprofile.city}}" maxlength="150" required>
+                            </div>
+                            {% comment %} <div class="form-group">
+                                <input class="input" type="text" name="country" placeholder="Country">
+                            </div> {% endcomment %}
+                            {% comment %} <div class="form-group">
+                                <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+                            </div> {% endcomment %}
+                            <div class="form-group">
+                                <input class="input" type="tel" name="tel" placeholder="Téléphone" value="{{userprofile.phone}}" pattern="[0-9]{10}" required >
+                            </div>
+
+                            <div class="pull-right">
+                                <button  type="submit" class="primary-btn">Commande complète</button>
+                            </div>
+                            {% comment %} <div class="form-group">
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="register">
+                                    <label class="font-weak" for="register">Create Account?</label>
+                                    <div class="caption">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
+                                            <p>
+                                                <input class="input" type="password" name="password" placeholder="Enter Your Password">
+                                    </div>
+                                </div>
+                            </div> {% endcomment %}
+                        </div>
+                    </div>
+
+                    {% comment %} <div class="col-md-6">
+                        <div class="shiping-methods">
+                            <div class="section-title">
+                                <h4 class="title">Shiping Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" name="shipping" id="shipping-1" checked>
+                                <label for="shipping-1">Free Shiping -  $0.00</label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" name="shipping" id="shipping-2">
+                                <label for="shipping-2">Standard - $4.00</label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payments-methods">
+                            <div class="section-title">
+                                <h4 class="title">Payments Methods</h4>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" name="payments" id="payments-1" checked>
+                                <label for="payments-1">Direct Bank Transfer</label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" name="payments" id="payments-2">
+                                <label for="payments-2">Cheque Payment</label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <p>
+                                </div>
+                            </div>
+                            <div class="input-checkbox">
+                                <input type="radio" name="payments" id="payments-3">
+                                <label for="payments-3">Paypal System</label>
+                                <div class="caption">
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> {% endcomment %}
+
+                </form>
+            </div>
+
+            <div class="col-md-12">
+                <div class="order-summary clearfix">
+                    <div class="section-title">
+                        <h3 class="title">Examen de commande</h3>
+                    </div>
+                    <div class="table-responsive" >
+                        <table class="shopping-cart-table table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th></th>
+                                    <th class="text-center">Prix (D.A)</th>
+                                    <th class="text-center">Quantité</th>
+                                    <th class="text-center">Total</th>
+                                    <th class="text-right"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rs in shopcarts %}
+                            <tr>
+                                <td class="thumb">
+                                    <img src="{{rs.product.image.url}}" alt="{{rs.product.title}}">
+                                </td>
+                                <td class="details">
+                                    <a href="{% url 'product:product_detail' rs.product.hash_pk rs.product.slug  %}">{{rs.product}}</a>  </td>
+                                <td class="price text-center"><strong>
+                                    {% if rs.product.variant == 'None' %}
+                                        {{rs.product.price | floatformat:2 }} D.A
+                                    {% else %}
+                                       {% if rs.variant is not None %}
+                                       {{rs.variant.price | floatformat:2 }} D.A
+                                       {% else %}{{rs.product.price}} D.A{% endif %} 
+                                    {% endif %}
+                                </strong></td>
+                                <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
+                                <td class="total text-center"><strong class="primary-color">
+                                    {% if rs.product.variant == 'None' %}
+                                        {{rs.amount | floatformat:2 }} D.A
+                                    {% else %}
+                                        {% if rs.variant is  None %}
+                                        {{rs.amount | floatformat:2 }} D.A
+                                        {% else %}
+                                        {{rs.varamount | floatformat:2 }} D.A
+                                        {% endif %}
+                                        
+                                    {% endif %}  
+                                </strong></td>
+                                <td class="text-right"><a href=" {% url 'order:deletefromcart' rs.id %} " onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i class="fa fa-close"></i></a></td>
+                            </tr>
+
+                        {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SUBTOTAL</th>
+                                    <th colspan="2" class="sub-total">{{userprofile.amountcard | floatformat:2 }}</th>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>SHIPING</th>
+                                    <td colspan="2">Free Shipping</td>
+                                </tr>
+                                <tr>
+                                    <th class="empty" colspan="3"></th>
+                                    <th>TOTAL</th>
+                                    <th colspan="2" class="total">{{userprofile.amountcard | floatformat:2 }} D.A</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="pull-right">
+                        <a href="{% url 'order:orderproduct' %}" class="primary-btn">Passer commande</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+{% endblock body %}

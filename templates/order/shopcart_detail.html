@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Panier Detail{% endblock title %}
+
+{% block keywords %} {{product.keywords}} {% endblock %}
+
+{% block description %} {{product.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a href="/">Accueil</a></li>       
+        <li><a href="/order/">Panier</a></li>       
+        <li class="active">Detail</li>
+      </ul>
+    </div>
+  </div>
+  {% comment %} {{category_ancestors}} {% endcomment %}
+  <!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!--  Product Details -->
+            <div class="product product-details clearfix">
+                <div class="col-md-6">
+                    <div id="product-main-view">
+
+                        <div class="product-view">
+                            <img src="{{ product.image.url }}" alt="{{rs.title}}" style="height: 400px">
+                        </div>
+                        {% for rs in images %}
+                            {% if rs.image.url is not null %}
+                            <div class="product-view">
+                                <img src="{{ rs.image.url }}" alt="{{rs.title}}" style="height: 400px">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </div>
+                    <div id="product-view">
+                        <div class="product-view">
+                            <img src="{{ product.image.url }}" alt="{{rs.title | truncatechars:30 }}" style="height: ">
+                        </div>
+                        {% for rs in images %}
+                            {% if rs.image.url is not null %}
+                            <div class="product-view">
+                                <img src="{{ rs.image.url }}" alt="{{rs.title | truncatechars:30 }}" style="height: ">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="product-body">
+                        <div class="product-label">
+                            
+                        </div>
+                        <h2 class="product-name">{{product.title}}</h2>
+                        <h3 class="product-price">{{product.price}} D.A</h3>
+                        <div>
+                            <div class="product-rating">
+                                
+                            </div>
+                            {% comment %} <a href="#">3 Review(s) / Add Review</a> {% endcomment %}
+                        </div>
+                        <p><strong>Disponibilité:</strong> {% if product.ammount < 1 %}En stock{% else %}Rupture de stock{% endif %}</p>
+                        <p><strong>Brand:</strong> {{setting.title}}</p>
+                        <p>{{product.detail |safe }}</p>
+                        
+                        <div class="pull-left">
+                            {% if variant %}
+                                <h2>Variant Detail :</h2>
+                           
+                                <div class="table-responsive">
+                                    <table class="shopping-cart-table table">
+                                        {% if variant.demension %}
+                                            <tr>
+                                                <th>Démension</th>
+                                                <td>{{variant.demension.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.materiel %}
+                                            <tr>
+                                                <th>Matière</th>
+                                                <td>{{variant.materiel.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.color %}
+                                            <tr>
+                                                <th>Couleur</th>
+                                                <td>{{variant.color.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.type %}
+                                            <tr>
+                                                <th>Type</th>
+                                                <td>{{variant.type.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.fastner %}
+                                            <tr>
+                                                <th>Fixation</th>
+                                                <td>{{variant.fastner.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.visuel %}
+                                            <tr>
+                                                <th>Visuel</th>
+                                                <td>{{variant.visuel.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.typologie %}
+                                            <tr>
+                                                <th>Typographie</th>
+                                                <td>{{variant.typologie.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if variant.adehesive %}
+                                            <tr>
+                                                <th>Adhésif</th>
+                                                <td>{{variant.adehesive.name}}</td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>    
+                                </div>
+                            {% endif %}
+                        </div>
+
+                            
+
+                        </div>
+
+                        <div class="product-btns">
+                            <div class="qty-input">
+                                
+                                
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+            <!-- /Product Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+
+{% endblock body %}

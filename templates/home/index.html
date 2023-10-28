@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Accueil Page{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+<br> <br>
+{% load static %}
+{% include 'section.html' %}
+<br> <br>
+<div class="section">
+<div class="container">
+    <div class="row">
+        {% for rs in cat_set %}
+            <!-- card general -->
+            <div class="col-md-4 col-md-6">
+                <div class="thumbnail" style="padding:15px; ">
+                    <h4 class="product-name text-center" style="height:50px" ><a href="/product/{{rs.slug}}">{{rs.title  }}</a></h4>
+                    <hr style="margin-top: 1rem;border-top: 1px solid #f9bd00;margin-bottom: .5rem;max-width: 30%;">
+                    <div class="row ">
+
+                        {% if rs.children.all %}
+                            {% for obj in rs.children.all %}
+                                <!-- inside card -->
+                                <div class="col-md-6 col-sm-6 col-xs-6" >
+                                    <!-- Product Single -->
+                                    <div class="product product-single">
+                                        <div class="product-thumb">
+                                            <a class="main-btn quick-view" href="/product/{{obj.slug}}/" ><i class="fa fa-eye" aria-hidden="true">View</i></a>
+                                                <img src="{% if obj.image.url is not None %}{{obj.image.url}}{% endif %}" alt="{{obj.title }}" style=""  />
+                                            
+                                        </div>
+                                        <div class="product-body">
+                                            <h3 class="product-name" style="text-align:center;height:65px"><a href="/product/{{obj.slug}}/">{{obj.title }}</a></h3> 
+                                            <hr style="margin-top: 1rem;border-top: 1px solid #f9bd00;margin-bottom: .5rem;max-width: 30%;">   
+                                        </div>
+                                    </div>
+                                    <!-- /Product Single -->
+                                </div>
+
+                                <!-- end inside card -->
+                            {% endfor %}
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+        <!-- end card general  -->
+        {% endfor %}
+    </div>
+</div>
+<br>
+<div class = "section">
+    <!-- add some long images -->
+</div> 
+
+</div>
+
+<br>
+
+<!-- section -->
+<div class = "section">
+    <div class="container">
+
+        {% if latest_product %}
+            <!-- Start -->
+            <div class="row">
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h2 class="title">Derniers produits</h2>
+                        <!-- list of product -->
+                    </div>
+                </div>
+                
+                <!-- section title -->
+                {% for rs in latest_product %}
+                    <!-- Product Single -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="product product-single">
+                            <div class="product-thumb">
+                                <a href="/product/{{rs.hash_pk}}/{{rs.slug}}/" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
+                                <img src="{% if rs.image.url is not None %}{{rs.image.url}}{% endif %}" alt="{{rs.title}}" height="">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-price">{{rs.price}} D.A </h3>
+                                {% comment %} <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div> {% endcomment %}
+                                <h2 class="product-name"><a href="/product/{{rs.hash_pk}}/{{rs.slug}}/">{{rs.title }}</a></h2>
+                                <div class="product-btns">
+                                    <a href="{% url 'order:likeproduct' rs.id %}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
+                                    {% comment %} <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> {% endcomment %}
+                                    <a href="{% url 'order:addtoshopcart' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product Single -->
+                {% endfor %}    
+            </div>
+            <!-- End -->
+        {% endif %}
+
+        <!-- banner -->
+        {% if secand_banner %}
+            <div class="row">
+                {% if secand_banner %}
+                    {% for rs in secand_banner %}
+                        <!-- banner -->
+                        <div class="col-md-4 col-sm-6">
+                            <a class="banner banner-1" href="/">
+                                <img src="{{rs.image.url}}" alt="{{rs.main_title}}">
+                                <div class="banner-caption text-center">
+                                    {% if rs.main_title %}<h1 class="{% if rs.main_title_clases != 'None' %}{{rs.main_title_clases}}{% endif %}">
+                                        {% if rs.main_title is not null %}{{rs.main_title}}{% endif %}
+                                    </h1>{% endif %}
+                                    {% if rs.secand_title %}<h1 {% if rs.secand_title_clases != 'None' %} class="{{rs.secand_title_clases}}"{% endif %}>{% if rs.main_title is not null %}{{rs.secand_title}}{% endif %}
+                                    </h1>{% endif %}
+                                </div>
+                            </a>
+                        </div>
+                        <!-- /banner -->
+                    {% endfor %}
+                {% endif %}
+                
+            </div>
+        {% endif %}
+        <!-- /banner -->
+
+        {% if random_products %}
+            <div class="row">
+                <!-- section title -->
+                <div class="col-md-12">
+                    <div class="section-title">
+                        <h2 class="title">Choisie pour vous</h2>
+                        <!-- list of product -->
+                    </div>
+                </div>
+                
+                <!-- section title -->
+                {% for rs in random_products %}
+                    <!-- Product Single -->
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="product product-single">
+                            <div class="product-thumb">
+                                <a href="/product/{{rs.hash_pk}}/{{rs.slug}}/" class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
+                                <img src="{% if rs.image.url is not None %}{{rs.image.url}}{% endif %}" alt="{{rs.title}}" height="">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-price">{{rs.price}} D.A </h3>
+                                {% comment %} <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-o empty"></i>
+                                </div> {% endcomment %}
+                                <h2 class="product-name"><a href="/product/{{rs.hash_pk}}/{{rs.slug}}/">{{rs.title }}</a></h2>
+                                <div class="product-btns">
+                                    <a href="{% url 'order:likeproduct' rs.id %}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
+                                    {% comment %} <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> {% endcomment %}
+                                    <a href="{% url 'order:addtoshopcart' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Product Single -->
+                {% endfor %}    
+            </div>
+        {% endif %}
+    </div>
+</div>  
+<!-- /section -->
+
+{% endblock %}

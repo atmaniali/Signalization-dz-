@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} Mail Sent {% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+ {% comment %} <!-- BREADCRUMB -->
+ <div id="breadcrumb">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li class="active">Reset Password</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB --> {% endcomment %}
+
+
+ <!-- section -->
+ <div class="section">
+    <!-- container -->
+    <div class="container">
+       <!-- row -->
+       <div class="row">
+
+        {% comment %} <div class="col-md-3">
+            {% include "user_panel.html" %}
+        </div> {% endcomment %}
+
+        <div class="col-md-9">
+            <div class="billing-details">
+                <div class="section-title">
+                    <h3 class="title">Vérifiez votre boîte de réception. ou spam</h3>
+                </div>
+            </div>
+
+            <p>Nous vous avons envoyé par e-mail des instructions pour définir votre mot de passe. Vous devriez recevoir l’e-mail sous peu!</p>
+
+
+            
+
+        </div>
+    </div>
+    <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

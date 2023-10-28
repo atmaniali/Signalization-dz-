@@ -1,0 +1,35 @@
+<!-- HOME -->
+<div id="home">
+	{% load static %}
+	<!-- container -->
+	<div class="container">
+		<!-- home wrap -->
+		<div class="home-wrap">
+			{% if page == "home" %}
+			<!-- home slick -->
+			<div id="home-slick">
+
+				{% for rs in banners %}
+					<!-- banner -->
+					<div class="banner banner-1">
+						<img src="{{rs.image.url}}" alt="{{rs.main_title}}" width="720"  >
+						<div class="banner-caption text-center">
+							{% if rs.main_title %}<h1 class="{% if rs.main_title_clases != 'None' %}{{rs.main_title_clases}}{% endif %}">{{rs.main_title}}</h1>{% endif %}
+							{% if rs.secand_title %}<h1 class="{% if rs.secand_title_clases != 'None' %}{{rs.secand_title_clases}}{% endif %}">{{rs.secand_title}}</h1>
+							<a href="/" class="primary-btn">Shop Now</a>{% endif %}
+						</div>
+					</div>
+					<!-- /banner -->
+				{% endfor %}
+
+				
+				
+			</div>
+			<!-- /home slick -->
+			{% endif %}
+		</div>
+		<!-- /home wrap -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /HOME -->

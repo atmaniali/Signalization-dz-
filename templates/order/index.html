@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Shopcart{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+  
+{% block body %}
+
+ <!-- BREADCRUMB -->
+ <div id="breadcrumb" class="hidden-xs" >
+  <div class="container">
+      <ul class="breadcrumb">
+          <li><a href="/">Accueil</a></li>
+          <li class="active">Panier</li>
+      </ul>
+  </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+      <!-- row -->
+      <div class="row"  >
+
+          <div class="col-md-12">
+              <div class="order-summary clearfix">
+                  <div class="section-title">
+                      <h3 class="title">Acheter le panier Liste des produits</h3>
+                  </div>
+                  {% comment %} <div class="table-responsive"> {% endcomment %}
+                    <table class="shopping-cart-table table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">Produit</th>
+                            <th class="text-center">Prix (D.A)</th>
+                            <th class="text-center">Quantité</th>
+                            <th class="text-center">Total</th>
+                            <th class="text-right"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for rs in shopcarts %}
+                            <tr>
+                                <td class="thumb">
+                                    <img src="{{rs.product.image.url}}" alt="{{rs.product.title}}">
+                                </td>
+                                <td class="details">
+                                    <a href="{% url 'order:shopcartdetail' rs.hash_pk  %}">{{rs.product}}</a>  </td>
+                                <td class="price text-center"><strong>
+                                    {% if rs.product.variant == 'None' %}
+                                        {{rs.product.price | floatformat:2 }} D.A
+                                    {% else %}
+                                       {% if rs.variant is not None %}
+                                       {{rs.variant.price | floatformat:2 }} D.A
+                                       {% else %}{{rs.product.price}} D.A{% endif %} 
+                                    {% endif %}
+                                </strong></td>
+                                <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
+                                <td class="total text-center"><strong class="primary-color">
+                                    {% if rs.product.variant == 'None' %}
+                                        {{rs.amount | floatformat:2 }} D.A
+                                    {% else %}
+                                        {% if rs.variant is  None %}
+                                        {{rs.amount | floatformat:2 }} D.A
+                                        {% else %}
+                                        {{rs.varamount | floatformat:2 }} D.A
+                                        {% endif %}
+                                        
+                                    {% endif %}    
+                                </strong></td>
+                                <td class="text-right"><a href=" {% url 'order:deletefromcart' rs.hash_pk %} " onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i class="fa fa-close"></i></a></td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th class="empty" colspan="3"></th>
+                            <th>SUBTOTAL</th>
+                            <th colspan="2" class="sub-total">{{userprofile.amountcard | floatformat:2 }}</th>
+                        </tr>
+                        {% comment %} <tr>
+                            <th class="empty" colspan="3"></th>
+                            <th>SHIPING</th>
+                            <td colspan="2">Free Shipping</td>
+                        </tr> {% endcomment %}
+                        <tr>
+                            <th class="empty" colspan="3"></th>
+                            <th>TOTAL</th>
+                            <th colspan="2" class="total">{{userprofile.amountcard | floatformat:2 }} D.A</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                {% comment %} </div> {% endcomment %}
+                {% comment %} <table>
+                    <tr>
+                        <th class="empty" colspan="3"></th>
+                        <th>SUBTOTAL</th>
+                        <th colspan="2" class="sub-total">{{userprofile.amountcard | floatformat:2 }}</th>
+                    </tr>
+                    <tr>
+                        <th class="empty" colspan="3"></th>
+                        <th>SHIPING</th>
+                        <td colspan="2">Free Shipping</td>
+                    </tr>
+                    <tr>
+                        <th class="empty" colspan="3"></th>
+                        <th>TOTAL</th>
+                        <th colspan="2" class="total">{{userprofile.amountcard | floatformat:2 }}</th>
+                    </tr>
+                </table> {% endcomment %}
+                  <div class="pull-right">
+                      <a href="{% url 'order:orderproduct' %}" class="primary-btn">Passer commande</a>
+                  </div>
+              </div>
+
+          </div>
+
+
+      </div>
+      <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

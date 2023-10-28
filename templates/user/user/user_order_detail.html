@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.first_name}} - Order Detail {% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accuiel</a></li>
+            <li class="active">Détail de la commande </li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "user_panel.html" %}
+            </div>
+
+            <div class="col-md-9">
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Détail de la commande</h3>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="shopping-cart-table table table-hover">
+                        <tr>
+                            <th class="text-center">Nom & Prénom</th>
+                            <td class="text-center">{{ order.last_name }} {{ order.first_name}} </td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Téléphone</th>
+                            <td class="text-center">{{ order.phone}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Addres</th>
+                            <td class="text-center">{{ order.address}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Ville</th>
+                            <td class="text-center">{{ order.city}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Pays</th>
+                            <td class="text-center">{{ order.country}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Status</th>
+                            <td class="text-center">{{ order.status}}</td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-center">Date</th>
+                            <td class="text-center">{{ order.create_at}}</td>
+                        </tr>
+
+                        <th class="text-center">Shipping Inf</th>
+                        <td class="text-center">{{ order.adminnote}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div class="section-title">
+                    <h4 class="title">Liste des articles de commande</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="shopping-cart-table table table-hover">
+                        <tr>
+                            <th class="text-center" style="padding:10px">Id </th>
+                            <th class="text-center" style="padding:10px">Produit </th>
+                            <th class="text-center" style="padding:10px">Prix (D.A) </th>
+                            <th class="text-center" style="padding:10px">Quantité </th>
+                            <th class="text-center" style="padding:10px">Amount (D.A) </th>
+                            <th class="text-center" style="padding:10px">Status </th>
+                            <th class="text-center" style="padding:10px">Date </th>
+                        </tr>
+                        {% for rs in orderitems %}
+                            <tr>
+                                <td class="text-center" style="padding:10px">
+                                    <a href="/product/{{ rs.hash_pk }}/{{ rs.product.slug }}">
+                                        {% if rs.variant.image_id > 0 %}
+                                            <img src="{{rs.variant.image.url }}" alt="" style="height: 50px">
+                                        {% else %}
+                                            <img src="{{rs.product.image.url}}" alt="" style="height: 50px">
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td class="text-center" style="padding:10px">{{ rs.product.title | truncatechars:30 }}   </td>
+                                <td class="text-center" style="padding:10px">{{ rs.price | floatformat:2 }} D.A </td>
+                                <td class="text-center" style="padding:10px">{{ rs.quantity}} </td>
+                                <td class="text-center" style="padding:10px">{{ rs.amount | floatformat:2 }} D.A </td>
+                                <td class="text-center" style="padding:10px">{{ rs.status}} </td>
+                                <td class="text-center" style="padding:10px">{{ rs.create_at}} </td>
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+                <br> <br>
+                    <div class="section-title">
+                        <h4 class="title">Order Variant List</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="shopping-cart-table table table-hover ">
+                            {% for rs in orderitems %}
+                                {% if rs.variant %}
+                                    <!-- ID -->
+                                    <tr>
+                                        <th class="text-left">ID</th>
+                                        <td class="text-left" >
+                                            <a href="/product/{{ rs.product_id }}/{{ rs.product.slug }}">   
+                                                <img src="{{rs.product.image.url}}" alt="" style="height: 50px">    
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!-- PRODUCT NAME -->
+                                    <tr>
+                                        <th class="text-left">Produit </th>
+                                        <td class="text-left" >
+                                            {{ rs.product.title | truncatechars:30 }}
+                                        </td>
+                                    </tr>
+                                    <!-- PRICE -->
+                                    <tr>
+                                        <th class="text-left">Prix </th>
+                                        <td class="text-left" >
+                                            {{ rs.product.price | floatformat:2 }} D.A
+                                        </td>
+                                    </tr>
+                                    <!-- PRICE -->
+                                    {% if rs.variant.color %}
+                                        <tr>
+                                            <th class="text-left">Couleur </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.color.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- COLOR -->
+                                    {% comment %} {% if rs.variant.color %}
+                                        <tr>
+                                            <th class="text-left">Color </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.color.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %} {% endcomment %}
+                                    <!-- MATERIEL -->
+                                    {% if rs.variant.materiel %}
+                                        <tr>
+                                            <th class="text-left">Matière </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.materiel.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- DEMENSION -->
+                                    {% if rs.variant.demension %}
+                                        <tr>
+                                            <th class="text-left">Démension </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.demension.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- FASTNER -->
+                                    {% if rs.variant.fastner %}
+                                        <tr>
+                                            <th class="text-left">Fixation </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.fastner.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- VISUEL -->
+                                    {% if rs.variant.visuel %}
+                                        <tr>
+                                            <th class="text-left">Visuel </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.visuel.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- TYPOLOGIE -->
+                                    {% if rs.variant.typologie %}
+                                        <tr>
+                                            <th class="text-left">Typographie </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.typologie.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- ADHESIVE -->
+                                    {% if rs.variant.adehesive %}
+                                        <tr>
+                                            <th class="text-left">Adhésif </th>
+                                            <td class="text-left" >
+                                                {{ rs.variant.adehesive.name }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    <!-- Visual -->
+                                    {% if rs.visual %}
+                                        <tr>
+                                            <th class="text-left">Visual </th>
+                                            <td class="text-left" >
+                                                {{ rs.visual }}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                    
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                
+
+                
+        </div>
+
+
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

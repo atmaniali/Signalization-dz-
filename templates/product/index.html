@@ -1,0 +1,359 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Product Page{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+{% load static %}
+<br> <br>
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs">
+  <div class="container">
+    <ul class="breadcrumb">
+      <li><a href="/">Accueil</a></li>
+      <li class="active">Produits</li>
+    </ul>
+  </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <!-- ASIDE -->
+      <div id="aside" class="col-md-3">
+        <!-- aside widget -->
+        {% comment %} <div class="aside">
+          <h3 class="aside-title">Shop by:</h3>
+          <ul class="filter-list">
+            <li><span class="text-uppercase">color:</span></li>
+            <li><a href="#" style="color:#FFF; background-color:#8A2454;">Camelot</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#475984;">East Bay</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#BF6989;">Tapestry</a></li>
+            <li><a href="#" style="color:#FFF; background-color:#9A54D8;">Medium Purple</a></li>
+          </ul> {% endcomment %}
+
+          {% comment %} <ul class="filter-list">
+            <li><span class="text-uppercase">Size:</span></li>
+            <li><a href="#">X</a></li>
+            <li><a href="#">XL</a></li>
+          </ul> {% endcomment %}
+
+          {% comment %} <ul class="filter-list">
+            <li><span class="text-uppercase">Price:</span></li>
+            <li><a href="#">MIN: $20.00</a></li>
+            <li><a href="#">MAX: $120.00</a></li>
+          </ul> {% endcomment %}
+
+          {% comment %} <ul class="filter-list">
+            <li><span class="text-uppercase">Gender:</span></li>
+            <li><a href="#">Men</a></li>
+          </ul>
+
+          <button class="primary-btn">Clear All</button>
+        </div> {% endcomment %}
+        <!-- /aside widget -->
+
+        {% comment %} <!-- aside widget -->
+        <div class="aside">
+          <h3 class="aside-title">Filter by Price</h3>
+          <div id="price-slider"></div>
+        </div>
+        <!-- aside widget --> {% endcomment %}
+
+        <!-- aside widget -->
+        {% if product_color|length > 0 %}
+        <div class="aside">
+          <h3 class="aside-title">Filtrer par couleur:</h3>
+          <ul class="color-option" style="max-height:300px; overflow-x:hidden; overflow-y:scroll; width:100%" >
+            {% for rs in product_color %}
+              {% if rs.color %}
+              <li><a href="{% url 'product:index' %}?color={{rs.color.hash_pk}}" style="background-color:{{rs.color.code}};"></a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <!-- /aside widget -->
+
+        {% comment %} <!-- aside widget -->
+        <div class="aside">
+          <h3 class="aside-title">Filter By Size:</h3>
+          <ul class="size-option">
+            <li class="active"><a href="#">S</a></li>
+            <li class="active"><a href="#">XL</a></li>
+            <li><a href="#">SL</a></li>
+          </ul>
+        </div>
+        <!-- /aside widget --> {% endcomment %}
+
+        
+        <!-- aside widget -->
+        {% if products_category|length > 0 %}
+          <div class="aside">
+            <h3 class="aside-title">Filtrer par catégorie </h3>
+            <ul class="list-links" style="max-height:300px; overflow-x:hidden; overflow-y:scroll; width:100%">
+              <li><a href="{% url 'product:index' %}">Toute</a></li>
+              {% for rs in products_category %}
+              <li><a href="{% url 'product:index' %}?category={{rs.category.hash_pk}}">{{rs.category.title}}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        <!-- /aside widget -->
+
+        <!-- aside widget -->
+        {% if product_demension|length > 0 %}
+        <div class="aside">
+          <h3 class="aside-title">Filtrer par Démension</h3>
+          <ul class="list-links" style="max-height:300px; overflow-x:hidden; overflow-y:scroll; width:100%">
+            <li><a href="{% url 'product:index' %}">Toute</a></li>
+            {% for rs in product_demension %}
+              {% if rs.demension %}
+              <li><a href="{% url 'product:index' %}?demension={{rs.demension.hash_pk}}">{{rs.demension.name}}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+        <!-- /aside widget -->
+
+
+        <!-- aside widget -->
+        {% if product_materiels|length > 0 %}
+          <div class="aside">
+            <h3 class="aside-title">Filtrer par Matière</h3>
+            <ul class="list-links" style="max-height:300px; overflow-x:hidden; overflow-y:scroll; width:100%">
+              <li><a href="{% url 'product:index' %}">Toute</a></li>
+              {% for rs in product_materiels %}
+                {% if rs.materiel %}
+                <li><a href="{% url 'product:index' %}?materiel={{rs.materiel.hash_pk}}">{{rs.materiel.name}}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        <!-- /aside widget -->
+
+
+        <!-- aside widget -->
+        <!-- {% if product_visuels|length > 0 %}
+          <div class="aside">
+            <h3 class="aside-title">Filtrer par Visuel</h3>
+            <ul class=" list-links " style="max-height:300px; overflow-x:hidden; overflow-y:scroll; width:100%" >
+              <li><a href="{% url 'product:index' %}">Toute</a></li>
+              {% for rs in product_visuels %}
+              {% if rs.visuel %}
+                <li><a href="{% url 'product:index' %}?visuel={{rs.visuel.hash_pk}}">{{rs.visuel.name}}</a></li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %} -->
+        <!-- /aside widget -->
+
+        
+
+        
+
+
+        <!-- aside widget -->
+        {% comment %} <div class="aside">
+          <h3 class="aside-title">Top Rated Product</h3>
+          <!-- widget product -->
+          <div class="product product-widget">
+            <div class="product-thumb">
+              <img src="./img/thumb-product01.jpg" alt="">
+            </div>
+            <div class="product-body">
+              <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+              <h3 class="product-price">$32.50 <del class="product-old-price">$45.00</del></h3>
+              <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o empty"></i>
+              </div>
+            </div>
+          </div>
+          <!-- /widget product -->
+
+          <!-- widget product -->
+          <div class="product product-widget">
+            <div class="product-thumb">
+              <img src="./img/thumb-product01.jpg" alt="">
+            </div>
+            <div class="product-body">
+              <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
+              <h3 class="product-price">$32.50</h3>
+              <div class="product-rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o empty"></i>
+              </div>
+            </div>
+          </div>
+          <!-- /widget product -->
+        </div> {% endcomment %}
+        <!-- /aside widget -->
+      </div>
+      <!-- /ASIDE -->
+
+      <!-- MAIN -->
+      <div id="main" class="col-md-9">
+        <!-- store top filter -->
+        
+        <!-- /store top filter -->
+
+        <!-- STORE -->
+        <div id="store">
+          <!-- row -->
+          <div class="row">
+            {% for rs in products %}
+            <!-- Product Single -->
+
+            <div class="col-md-4 col-sm-6 col-xs-6">
+              <div class="product product-single">
+                <div class="product-thumb">
+                  <div class="product-label">
+                    {% comment %} <span>New</span>
+                    <span class="sale">-20%</span> {% endcomment %}
+                  </div>
+                  <a class="main-btn quick-view" href="/product/{{rs.hash_pk}}/{{rs.slug}}/" ><i class="fa fa-eye" aria-hidden="true"></i> Quick view</a>
+                  <img src="{% if rs.image.url is not null %}{{rs.image.url}}{% endif %}" alt="{{rs.title}} " height="">
+                </div>
+                <div class="product-body">
+                  <h3 class="product-price" style="color:#FABC07;text-align:center;width:100%">{{rs.price}} D.A</h3>
+                  <div class="product-rating">
+                    {% comment %} <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o empty"></i> {% endcomment %}
+                  </div>
+                  <h2 class="product-name" style="height:60px"><a href="/product/{{rs.hash_pk}}/{{rs.slug}}/" >{{rs.title }}</a></h2>
+                  <div  class="product-btns">
+                    <a href="{% url 'order:likeproduct' rs.id %}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
+                    {% comment %} <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button> {% endcomment %}
+                    <a href="{% url 'order:addtoshopcart' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {% comment %} <div class="col-md-4 col-sm-6 col-xs-6">
+              <div class="product product-single">
+                <div class="product-thumb">
+                  <img src="{% if rs.image.url is not null %}{{rs.image.url}}"{% endif %}" alt="{{rs.title}}" style="height:;>
+                </div>
+                <div class="product-body">
+                  <h3 class="product-price" style="color:#F8694A;text-align:center;width:100%">${{rs.price}} </h3>
+                  <div class="product-rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o empty"></i>
+                  </div>
+                  <h2 class="product-name"><a href="/product/{{rs.id}}/{{rs.slug}}/">{{rs.title | truncatechars:60}}</a></h2>
+                  <div class="product-btns">
+                    <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+                    <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+                    <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                  </div>
+                </div>
+              </div>
+            </div> {% endcomment %}
+            <!-- /Product Single -->
+            {% comment %} <div class="clearfix visible-sm visible-xs"></div> {% endcomment %}
+            {% endfor %}
+          </div>
+          <!-- /row -->
+        </div>
+        <!-- /STORE -->
+
+        <!-- store bottom filter -->
+        <div class="store-filter clearfix">
+          <div class="pull-right">
+            <!-- Pagination -->
+            {% if products.has_other_pages %}
+            <nav aria-label="...">
+              <ul class="pagination">
+                <!-- prev-->
+                {% if products.has_previous %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link" aria-hidden="true">&laquo;</span>
+                    </li>
+                {% endif %}
+                <!-- /prev--7
+
+                <!-- 3 first-->
+                {% for p in products.paginator.page_range %}
+                    {% if p < 4 %}
+                      {% if products.number == p %}
+                          <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                      {% else %}
+                          <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                      {% endif %}
+                    {% endif %}
+                {% endfor %}
+                <!-- /3 first-->
+
+                <!-- next-->
+                {% if products.has_next %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                      <span class="page-link" aria-hidden="true">&raquo;</span>
+                    </li>
+                {% endif %}
+                <!-- /next-->
+              </ul>
+            </nav>
+            {% endif %}
+            <!-- /Pagination -->
+            {% comment %} <ul class="store-pages">
+              <li><span class="text-uppercase">Page:</span></li>
+              <li class="active">1</li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+            </ul> {% endcomment %}
+          </div>
+        </div>
+        <!-- /store bottom filter -->
+      </div>
+      <!-- /MAIN -->
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /section -->
+
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Product Page{% endblock title %}
+
+{% block keywords %} {{product.keywords}} {% endblock %}
+
+{% block description %} {{product.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+      <ul class="breadcrumb">
+        <li><a href="/">Accueil</a></li>
+        <li class="active">Change</li>
+      </ul>
+    </div>
+  </div>
+  {% comment %} {{category_ancestors}} {% endcomment %}
+  <!-- /BREADCRUMB -->
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <!--  Product Details -->
+            <div class="product product-details clearfix">
+                <div class="col-md-6">
+                    <div id="product-main-view">
+
+                        <div class="product-view">
+                            <img src="{{ product.image.url }}" alt="{{rs.title}}" style="height: 400px">
+                        </div>
+                        {% for rs in images %}
+                            {% if rs.image.url is not null %}
+                            <div class="product-view">
+                                <img src="{{ rs.image.url }}" alt="{{rs.title}}" style="height: 400px">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
+
+                    </div>
+                    <div id="product-view">
+                        <div class="product-view">
+                            <img src="{{ product.image.url }}" alt="{{rs.title | truncatechars:30 }}" style="height: ">
+                        </div>
+                        {% for rs in images %}
+                            {% if rs.image.url is not null %}
+                            <div class="product-view">
+                                <img src="{{ rs.image.url }}" alt="{{rs.title | truncatechars:30 }}" style="height: ">
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="product-body">
+                        <div class="product-label">
+                            
+                        </div>
+                        <h2 class="product-name">{{product.title}}</h2>
+                        <h3 class="product-price">{{product.price}} D.A</h3>
+                        <div>
+                            <div class="product-rating">
+                                
+                            </div>
+                            {% comment %} <a href="#">3 Review(s) / Add Review</a> {% endcomment %}
+                        </div>
+                        <p><strong>Availability:</strong> {% if product.ammount < 1 %}En stock{% else %}Rupture de stock{% endif %}</p>
+                        <p><strong>Brand:</strong> {{setting.title}}</p>
+                        <p>{{product.detail |safe }}</p>
+                        
+                        <div class="pull-right">
+                            {% load social_share %}
+                            <div class="dropdown main-btn icon-btn" >
+                                <button class="btn btn-default dropdown-toggle main-btn icon-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-share-alt"></i>
+                                  <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1" style="padding:10px;">
+                                  <li>{% post_to_facebook object_or_url "Post to Facebook!" %}</li>
+                                  <li>{% post_to_twitter "{{product.title}}. Check it out!" object_or_url "Post to Twitter" %}</li>
+                                  <li>{% post_to_linkedin object_or_url %}</li>
+                                  <li>{% send_email object.title "New Song: {{product.title}}. Check it out!" object_or_url "Share via email" %}</li>
+                                  <li >{% post_to_telegram "New Song: {{product.title}}" object_or_url  %}</li>
+                                  <li >{% copy_to_clipboard object_or_url "Copy to clipboard!" "share-btn" %} </li>
+                                  <li >{% add_copy_script %}</li>
+                                  {% comment %} <li><a href="#">Separated link</a></li> {% endcomment %}
+                                </ul>
+                              </div>
+
+                            <a href="{% url 'order:likeproduct' product.id %}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
+                            
+                        </div>
+
+                        <div class="product-btns">
+                            <div class="qty-input">
+                                
+                                {% comment %} {% include 'product/product_variant_2.html' %} {% endcomment %}
+                                <form class="form-horizontal">
+                                    {% csrf_token %}
+                                    <br><br><br>
+                                    <div class="form-group">
+                                        <span class="text-uppercase col-sm-2 control-label">Text: </span>
+                                        <input class="input  " name="Text" type="text" required placeholder="Enter your text" > 
+                                    </div>
+                                    <div class="form-group">
+                                        <span class="text-uppercase col-sm-2 control-label">Qty: </span>
+                                        <input class="input" name="Text" type="number" min="1"  value="1" > <!-- max="{{ product.amount }}" -->
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="primary-btn add-to-cart">Connexion</button>
+                                        </div>
+                                    </div>
+                                    <br><br><br>
+                                    <span class="text-uppercase">Text: </span>
+                                    <input class="input" name="Text" type="text" required placeholder="Enter your text here" > <!-- max="{{ product.amount }}" -->
+                                    <input class="input" name="quantity" type="number" value="1" min="1" > <!-- max="{{ product.amount }}" -->
+                                    <button class="primary-btn add-to-cart" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+                                </form>
+                            </div>
+
+                            <div class="pull-right">
+                                
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </div>
+            <!-- /Product Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

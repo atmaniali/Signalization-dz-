@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}{{user.first_name}} Order Products {% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs" >
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="/">Accuiel</a></li>
+            <li class="active">Commander des produits </li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+
+<!-- section -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+
+            <div class="col-md-3">
+                {% include "user_panel.html" %}
+            </div>
+
+            <div class="col-md-9">
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Commander la liste des produits</h3>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="shopping-cart-table table table-hover">
+                        <tr>
+                            <th class="text-center" style="padding:10px">Id </th>
+                            <th class="text-center" style="padding:10px">Produit </th>
+                            <th class="text-center" style="padding:10px">Prix (D.A) </th>
+                            <th class="text-center" style="padding:10px">Quantité </th>
+                            <th class="text-center" style="padding:10px">Amount (D.A) </th>
+                            <th class="text-center" style="padding:10px">Status </th>
+                            <th class="text-center" style="padding:10px">Date </th>
+                            <th class="text-center" style="padding:10px">Detail </th>
+                        </tr>
+                        {% for rs in order_product %}
+                            <tr>
+                                <td class="text-center" style="padding:10px">
+                                    <a href="/product/{{ rs.hash_pk }}/{{ rs.product.slug }}">
+                                        {% if rs.variant.image_id > 0 %}
+                                            <img src="{{rs.variant.image }}" alt="" style="height: 80px">
+                                        {% else %}
+                                            <img src="{{rs.product.image.url}}" alt="" style="height: 80px">
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td class="text-center" style="padding:10px">{{ rs.product.title}} </td>
+                                <td class="text-center" style="padding:10px">{{ rs.price | floatformat:2}} (D.A)</td>
+                                <td class="text-center" style="padding:10px">{{ rs.quantity}} </td>
+                                <td class="text-center" style="padding:10px">{{ rs.amount | floatformat:2 }} (D.A)</td>
+                                <td class="text-center" style="padding:10px">{{ rs.status}} </td>
+                                <td class="text-center" style="padding:10px">{{ rs.create_at}} </td>
+                                <td class="text-center" style="padding:10px"><a class="primary-btn" href=" {% url 'profile:user_order_product_detail' rs.hash_pk  rs.order.hash_pk %} "> Detail </a></td>
+
+                            </tr>
+                        {% endfor %}
+
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock body %}

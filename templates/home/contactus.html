@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact us{% endblock title %}
+
+{% block keywords %} {{setting.keywords}} {% endblock %}
+
+{% block description %} {{setting.description}}  {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block slider %} {% include 'slider.html' %} {% endblock %}
+
+{% block body %}
+<!-- BREADCRUMB -->
+<div id="breadcrumb" class="hidden-xs">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'home:index' %}">Accueil</a></li>
+            <li class="active">Contact Page</li>
+        </ul>
+    </div>
+</div>
+<!-- /BREADCRUMB -->
+
+<div class="section">
+    <div class="container">
+        <div class = "col-md-12 " >
+            <h5 class="text-center " style="color:#FABC07">VOUS AVEZ UNE QUESTION ?</h5>
+            <h1 class="text-center" >Contact {{setting.title}}</h1>
+            <p class="text-center">Nous sommes là pour vous aider et répondre à toutes vos questions. Nous sommes impatients d’avoir de vos nouvelles 🙂</p>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-md-4">
+                <div style="border: 1px solid rgb(229, 229, 229);padding: 10px;" >
+                    <div class="text-center" >
+                        <h3 style="color:#FABC07">Contact Information</h3>
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{setting.address}}</p>
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> {{setting.phone}}</p>
+                        {% if setting.fax %}<p><i class="fa fa-fax" aria-hidden="true"></i> {{setting.fax}}</p>{% endif %}
+                        <p><a href="mailto:{{setting.smtpemail}}"> <i class="fa fa-envelope-o" aria-hidden="true"></i> {{setting.smtpemail}}</a></p>
+                    </div>    
+                </div>    
+            </div>    
+            <div class="col-md-8">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button class="primary-btn" type="submit">Send Mail</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

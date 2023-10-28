@@ -1,0 +1,129 @@
+<!-- STORE -->
+<div id="store">
+    <!-- row -->
+    <div class="row">
+      {% for rs in products %}
+      <!-- Product Single -->
+
+      <div class="col-md-4 col-sm-6 col-xs-6">
+        <div class="product product-single">
+          <div class="product-thumb">
+            <div class="product-label">
+              {% comment %} <span>New</span>
+              <span class="sale">-20%</span> {% endcomment %}
+            </div>
+            <a class="main-btn quick-view" href="/product/{{rs.hash_pk}}/{{rs.slug}}/" ><i class="fa fa-search-plus"></i> Quick view</a>
+            
+            <img src="{% if rs.image.url is not null %}{{rs.image.url}} {% endif %}" alt="{{rs.title}}" style=""  >
+            
+          </div>
+          <div class="product-body">
+            <h3 class="product-price" style="color:#FABC07;text-align:center;width:100%">{{rs.price}} D.A</h3>
+            <div class="product-rating">
+              {% comment %} <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o empty"></i> {% endcomment %}
+            </div>
+            <h2 class="product-name"><a href="/product/{{rs.hash_pk}}/{{rs.slug}}/">{{rs.title  }}</a></h2>
+            <div class="product-btns">
+              <a href="{% url 'order:likeproduct' rs.id %}" class="main-btn icon-btn"><i class="fa fa-heart"></i></a>
+              <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+              <a href="{% url 'order:addtoshopcart' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} <div class="col-md-4 col-sm-6 col-xs-6">
+        <div class="product product-single">
+          <div class="product-thumb">
+            <img src="{% if rs.image.url is not null %}{{rs.image.url}}"{% endif %}" alt="{{rs.title}}" style="height:;>
+          </div>
+          <div class="product-body">
+            <h3 class="product-price" style="color:#F8694A;text-align:center;width:100%">${{rs.price}} </h3>
+            <div class="product-rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o empty"></i>
+            </div>
+            <h2 class="product-name"><a href="/product/{{rs.id}}/{{rs.slug}}/">{{rs.title | truncatechars:60}}</a></h2>
+            <div class="product-btns">
+              <button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+              <button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
+              <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div> {% endcomment %}
+      <!-- /Product Single -->
+      <div class=""></div>
+      {% endfor %}
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /STORE -->
+
+  <!-- store bottom filter -->
+  <div class="store-filter clearfix">
+    <div class="pull-right">
+      <!-- Pagination -->
+      {% if products.has_other_pages %}
+      <nav aria-label="...">
+        <ul class="pagination">
+          <!-- prev-->
+          {% if products.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+          {% else %}
+              <li class="page-item disabled">
+                  <span class="page-link" aria-hidden="true">&laquo;</span>
+              </li>
+          {% endif %}
+          <!-- /prev--7
+
+          <!-- 3 first-->
+          {% for p in products.paginator.page_range %}
+              {% if p < 4 %}
+                {% if products.number == p %}
+                    <li class="page-item"><a class="page-link" style="color: red;" href="#">{{ p }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                {% endif %}
+              {% endif %}
+          {% endfor %}
+          <!-- /3 first-->
+
+          <!-- next-->
+          {% if products.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+          {% else %}
+              <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+              </li>
+          {% endif %}
+          <!-- /next-->
+        </ul>
+      </nav>
+      {% endif %}
+      <!-- /Pagination -->
+      {% comment %} <ul class="store-pages">
+        <li><span class="text-uppercase">Page:</span></li>
+        <li class="active">1</li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#"><i class="fa fa-caret-right"></i></a></li>
+      </ul> {% endcomment %}
+    </div>
+  </div>
+  <!-- /store bottom filter -->

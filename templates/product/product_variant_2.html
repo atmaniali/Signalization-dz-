@@ -1,0 +1,599 @@
+<form action="{% url 'order:addtoshopcart' product.id %}" method="post">
+    {% csrf_token %}
+    {% if product.variant != 'None' %}
+     <h3>En savoir plus sur l'issue de secours :</h3>
+        {% if product.variant == 'Dimension' %}
+            <!-- DEMENSIONS -->
+            {% if demensions  %}
+                <div class="demension-option " style="margin-top:10px;margin-bottom:10px">
+                    <span class="text-uppercase">Démensionn :</span>
+                    <select class="form-control " name="dimension" id='demension' >
+                        {% for rs in demensions %}
+                            {% if rs.demension.code is not None %}
+                                <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+            {% endif %}
+            <!-- DEMENSIONS -->
+
+        {% elif product.variant == 'Materiel' %}
+            <!-- MATERIELS -->
+            {% if materiels  %}
+                <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                    <span class="text-uppercase">Matière :</span>
+                    <select class="form-control" name="materiels" id='materiel' onclick="UpdateStatus()" >
+                        {% for rs in materiels %}
+                            {% if rs.materiel.code is not None %}
+                                <option value={{rs.materiel.id}}>{{rs.materiel.code}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+            {% endif %}
+            <!-- MATERIELS -->
+
+        {% elif product.variant == 'Color' %}
+            <!-- COLORS -->
+            {% if colors  %}
+                <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                    <span class="text-uppercase">Couleur  :</span>
+                    <select class="form-control" name="colors" id="color" >
+                        {% for rs in colors %}
+                            {% if rs.color.name is not None %}
+                                <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+            {% endif %}
+            <!-- COLORS -->
+    
+        {% elif product.variant == 'Type' %}
+            <!-- TYPES -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Type :</span>
+                <select class="form-control" name="type" id="type" >
+                    {% for rs in types %}
+                        {% if rs.type.name is not None %}
+                            <option value={{rs.type.id}}>{{rs.type.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPES --> 
+        
+        {% elif product.variant == 'Fastener' %}  
+            <!-- FIXATION -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Fixation :</span>
+                <select class="form-control" name="fastner" id="fastner" >
+                    {% for rs in fasteners %}
+                        {% if rs.fastner.code is not None %}
+                            <option value={{rs.fastner.id}}>{{rs.fastner.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- FIXATION -->   
+    
+           
+
+        {% elif product.variant == 'Typologie' %}  
+            <!-- TYPOLOGIE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Typographie :</span>
+                <select class="form-control" name="typologie" id="typologie" >
+                    {% for rs in typologies %}
+                        {% if rs.typologie.code is not None %}
+                            <option value={{rs.typologie.id}}>{{rs.typologie.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPOLOGIE -->
+    
+    
+        {% elif product.variant == 'Adehesive_Appearence' %}  
+            <!-- ADEHESIVE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Adhésif :</span>
+                <select class="form-control" name="adehesives" id="adehesive" >
+                    {% for rs in adehesives %}
+                        {% if rs.adehesive.code is not None %}
+                            <option value={{rs.adehesive.id}}>{{rs.adehesive.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- ADEHESIVE -->   
+
+        {% elif product.variant == 'Dimension-Materiel' %}
+            <!-- DEMENSIONS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Démension :</span>
+                <select class="form-control" name="dimension" id='demension' >
+                    {% for rs in demensions %}
+                        {% if rs.demension.code is not None %}
+                            <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- DEMENSIONS -->
+
+            <!-- MATERIELS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Matière  :</span>
+                <select class="form-control" name="materiels" id='materiel' >
+                    {% for rs in materiels %}
+                        {% if rs.materiel.code is not None %}
+                            <option value={{rs.materiel.id}}>{{rs.materiel.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- MATERIELS -->
+        
+        {% elif product.variant == 'Color-Fastner' %}
+            <!-- COLORS -->
+            {% if colors  %}
+                <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                    <span class="text-uppercase">Couleur :</span>
+                    <select class="form-control" name="colors" id="color" >
+                        {% for rs in colors %}
+                            {% if rs.color.name is not None %}
+                                <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                
+            {% endif %}
+            <!-- COLORS -->
+
+            <!-- FIXATION -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Fixation :</span>
+                <select class="form-control" name="fastner" id="fastner" >
+                    {% for rs in fasteners %}
+                        {% if rs.fastner.code is not None %}
+                            <option value={{rs.fastner.id}}>{{rs.fastner.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- FIXATION --> 
+
+        {% elif product.variant == 'Typologie-Color' %}
+            <!-- TYPOLOGIE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Typographie :</span>
+                <select class="form-control" name="typologie" id='typologie' >
+                    {% for rs in typologies %}
+                        {% if rs.typologie.code is not None %}
+                            <option value={{rs.typologie.id}}>{{rs.typologie.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPOLOGIE -->
+
+            <!-- COLORS -->
+            {% if colors  %}
+                <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                    <span class="text-uppercase">Couleur :</span>
+                    <select class="form-control" name="colors" id="color" >
+                        {% for rs in colors %}
+                            {% if rs.color.name is not None %}
+                                <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                    
+            {% endif %}
+            <!-- COLORS -->
+
+
+        
+
+        {% elif product.variant == 'Dimension-Materiel-Colors' %}
+
+            <!-- DEMENSIONS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Démension :</span>
+                <select class="form-control" name="dimension" id='demension' >
+                    {% for rs in demensions %}
+                        {% if rs.demension.code is not None %}
+                            <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- DEMENSIONS -->
+
+            <!-- MATERIELS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Matière :</span>
+                <select class="form-control" name="materiels" id='materiel' >
+                    {% for rs in materiels %}
+                        {% if rs.materiel.code is not None %}
+                            <option value={{rs.materiel.id}}>{{rs.materiel.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- MATERIELS -->
+
+            <!-- COLORS -->
+            <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Couleur :</span>
+                <select class="form-control" name="colors" id="color" >
+                    {% for rs in colors %}
+                        {% if rs.color.name is not None %}
+                            <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- COLORS -->
+
+         
+
+      {% comment %} {% endif %} {% endcomment %}
+
+        {% elif product.variant == 'Materiel-Visuel-Color' %}
+
+            <!-- VISUEL -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Visuel :</span>
+                <select class="form-control" name="visuel" id='visuel' >
+                    {% for rs in visuels %}
+                        {% if rs.visuel.code is not None %}
+                            <option value={{rs.visuel.id}}>{{rs.visuel.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- VISUEL --> 
+
+            <!-- MATERIELS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Matière :</span>
+                <select class="form-control" name="materiels" id='materiel' >
+                    {% for rs in materiels %}
+                        {% if rs.materiel.code is not None %}
+                            <option value={{rs.materiel.id}}>{{rs.materiel.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- MATERIELS -->
+
+            <!-- COLORS -->
+            <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Couleur :</span>
+                <select class="form-control" name="colors" id="color" >
+                    {% for rs in colors %}
+                        {% if rs.color.name is not None %}
+                            <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- COLORS -->
+
+        {% elif product.variant == 'Dimension-Adehesive_Appearence' %}
+
+            <!-- DEMENSIONS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Démension :</span>
+                <select class="form-control" name="dimension" id='demension' >
+                    {% for rs in demensions %}
+                        {% if rs.demension.code is not None %}
+                            <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- DEMENSIONS -->
+
+            
+
+            <!-- ADEHESIVE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Adhésif :</span>
+                <select class="form-control" name="adehesives" id="adehesive" >
+                    {% for rs in adehesives %}
+                        {% if rs.adehesive.code is not None %}
+                            <option value={{rs.adehesive.id}}>{{rs.adehesive.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- ADEHESIVE --> 
+
+        {% elif product.variant == 'Color-Type-Fastner' %}
+
+            <!-- COLORS -->
+            <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Couleur :</span>
+                <select class="form-control" name="colors" id="color" >
+                    {% for rs in colors %}
+                        {% if rs.color.name is not None %}
+                            <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- COLORS -->
+
+
+            <!-- TYPES -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Type :</span>
+                <select class="form-control" name="type" id="type" >
+                    {% for rs in types %}
+                        {% if rs.type.name is not None %}
+                            <option value={{rs.type.id}}>{{rs.type.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPES --> 
+
+            <!-- FIXATION -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Fixation :</span>
+                <select class="form-control" name="fastner" id="fastner" >
+                    {% for rs in fasteners %}
+                        {% if rs.fastner.code is not None %}
+                            <option value={{rs.fastner.id}}>{{rs.fastner.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- FIXATION -->
+
+        {% elif product.variant == 'Color-Type-Adehesive_Appearence' %}
+
+            <!-- COLORS -->
+            <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Couleur :</span>
+                <select class="form-control" name="colors" id="color" >
+                    {% for rs in colors %}
+                        {% if rs.color.name is not None %}
+                            <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- COLORS -->
+
+
+            <!-- TYPES -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Type :</span>
+                <select class="form-control" name="type" id="type" >
+                    {% for rs in types %}
+                        {% if rs.type.name is not None %}
+                            <option value={{rs.type.id}}>{{rs.type.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPES --> 
+
+            <!-- ADEHESIVE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Adhésif :</span>
+                <select class="form-control" name="adehesives" id="adehesive" >
+                    {% for rs in adehesives %}
+                        {% if rs.adehesive.code is not None %}
+                            <option value={{rs.adehesive.id}}>{{rs.adehesive.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- ADEHESIVE -->
+
+        {% elif product.variant == 'Dimension-Materiel-Type' %}
+
+            <!-- DEMENSIONS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Démension :</span>
+                <select class="form-control" name="dimension" id='demension' >
+                    {% for rs in demensions %}
+                        {% if rs.demension.code is not None %}
+                            <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- DEMENSIONS -->
+
+
+            <!-- MATERIELS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Matière :</span>
+                <select class="form-control" name="materiels" id='materiel' >
+                    {% for rs in materiels %}
+                        {% if rs.materiel.code is not None %}
+                            <option value={{rs.materiel.id}}>{{rs.materiel.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- MATERIELS -->
+            
+            
+
+            <!-- TYPES -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Type :</span>
+                <select class="form-control" name="type" id="type" >
+                    {% for rs in types %}
+                        {% if rs.type.name is not None %}
+                            <option value={{rs.type.id}}>{{rs.type.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- TYPES -->
+
+        {% elif product.variant == 'Dimension-Color-Adehesive_Appearence' %}
+
+            <!-- DEMENSIONS -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Démension :</span>
+                <select class="form-control" name="dimension" id='demension' >
+                    {% for rs in demensions %}
+                        {% if rs.demension.code is not None %}
+                            <option value={{rs.demension.id}}>{{rs.demension.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- DEMENSIONS -->
+
+
+            <!-- COLORS -->
+            <div class="colors-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Couleur :</span>
+                <select class="form-control" name="colors" id="color" >
+                    {% for rs in colors %}
+                        {% if rs.color.name is not None %}
+                            <option value={{rs.color.id}} style="background:{{rs.color.code}}; color:white">{{rs.color.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- COLORS -->
+            
+            
+
+            <!-- ADEHESIVE -->
+            <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+                <span class="text-uppercase">Adhésif :</span>
+                <select class="form-control" name="adehesives" id="adehesive" >
+                    {% for rs in adehesives %}
+                        {% if rs.adehesive.code is not None %}
+                            <option value={{rs.adehesive.id}}>{{rs.adehesive.code}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- ADEHESIVE -->
+
+ 
+
+        {% endif %}  <!-- End If variant fields -->
+
+
+
+    {% endif %}  <!-- End If product.variant == 'None' -->
+    <!-- Visual -->
+    {% if product.visual %} 
+        {% if visuels %}
+        <div class="demension-option" style="margin-top:10px;margin-bottom:10px">
+            <span class="text-uppercase">visuel :</span>
+            <select class="form-control" name="visual" >
+                {% for rs in visuels %}
+                <option value={{rs.visual.code}}>{{rs.visual.code}}</option>
+                {% endfor %}
+            </select>
+        </div>
+            
+        {% endif %}
+    {% endif %}
+    
+    <!-- Visuel -->
+    <br><br><br>
+    <span class="text-uppercase">QTY: </span>
+    <input class="input" name="quantity" type="number" value="1" min="1" > <!-- max="{{ product.amount }}" -->
+    <button class="primary-btn add-to-cart" type="submit"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+</form> 
+
+<script type="text/javascript">
+    $('.form-control').click(function(){
+        var materielid = null
+        var demensionid = null
+        <!-- var visuelid = null -->
+        var typologieid = null
+        var colorid = null
+        var fastnerid = null
+        var adehesiveid = null
+        var typeid = null
+
+
+        var materiel = document.getElementById('materiel');
+        var demension = document.getElementById('demension');
+        <!-- var visuel = document.getElementById('visuel'); -->
+        var typologie = document.getElementById('typologie');
+        var color = document.getElementById('color');
+        var fastner = document.getElementById('fastner');
+        var adehesive = document.getElementById('adehesive');
+        var type = document.getElementById('type');
+
+        {% comment %} console.log(materielid) {% endcomment %}
+
+        if (type != null){
+            type = document.getElementById('type').value
+        }
+
+        if (adehesive != null){
+            adehesiveid = document.getElementById('adehesive').value
+        }
+
+        if (fastner != null){
+            fastnerid = document.getElementById('fastner').value
+        }
+
+        if (materiel != null){
+            materielid = document.getElementById('materiel').value
+        }
+
+        if (demension != null){
+            demensionid = document.getElementById('demension').value
+        }
+
+        
+
+        if (typologie != null){
+            typologieid = document.getElementById('typologie').value
+        }
+
+        if (color != null){
+            colorid = document.getElementById('color').value
+        }
+
+        $.ajax({
+            type:"GET",
+            url: '/product/ajaxPrice',
+            data:{
+                productid : {{product.id}},
+                materialid : materielid,
+                demensionid : demensionid,
+                
+                typologieid : typologieid,
+                colorid : colorid,
+                fastnerid : fastnerid,
+                typeid : typeid,
+                typologieid : typologieid,
+                adehesiveid : adehesiveid,
+            },
+            datatype: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function( data ) 
+            {
+                
+                price = $('#price').html('<h3 id="price" class="product-price">' + data.price +  ' D.A</h3>')
+            }
+        })
+    })
+</script>

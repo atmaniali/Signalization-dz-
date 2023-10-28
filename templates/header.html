@@ -1,0 +1,204 @@
+<!-- HEADER -->
+<header>
+  {% load static %}
+  {{ redirect_to_login_immediately }}
+  <!-- top Header -->
+  <div id="top-header">
+    <div class="container">
+      <div class="pull-left" style="">
+        {% comment %} <span>Welcome to E-shop!</span> {% endcomment %}
+        
+        <div class="hidden-xs">
+          <span>Welcome to {{setting.title}} - <i class="fa fa-phone" aria-hidden="true" style="color:#FABC07 ;"></i> :  {{setting.phone}} - <i class="fa fa-envelope" aria-hidden="true" style="color:#FABC07 ;"></i> {{setting.smtpemail}} </span>
+        </div>
+        {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            {{ message |safe }}
+                        </div>
+                    {% endfor %}
+        {% endif %}
+      </div>
+      <div class="pull-right">
+        {% comment %} <div >
+          <img src="{% static 'img/moumen_logo.jpg' %}" alt="moumen_logo" srcset="" height="40px">
+        </div> {% endcomment %}
+        {% comment %} <ul class="header-top-links">
+          <li><a href="#">Store</a></li>
+          <li><a href="#">Newsletter</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li class="dropdown default-dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
+            <ul class="custom-menu">
+              <li><a href="#">English (ENG)</a></li>
+              <li><a href="#">Russian (Ru)</a></li>
+              <li><a href="#">French (FR)</a></li>
+              <li><a href="#">Spanish (Es)</a></li>
+            </ul>
+          </li>
+          <li class="dropdown default-dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
+            <ul class="custom-menu">
+              <li><a href="#">USD ($)</a></li>
+              <li><a href="#">EUR (€)</a></li>
+            </ul>
+          </li>
+        </ul> {% endcomment %}
+      </div>
+    </div>
+  </div>
+  <!-- /top Header -->
+
+  <!-- header -->
+  <div id="header">
+    <div class="container">
+      <div class="pull-left">
+        <!-- Logo -->
+        <div class="header-logo">
+          <a class="logo" href="/">
+            <img src="{% if setting.logo %}{{setting.logo.url}}{% endif %}" alt="logo">
+          </a>
+        </div>
+        <!-- /Logo -->
+        <script>
+          $(function() {
+              $("#query").autocomplete({
+                  source: "/search_auto/",
+                  select: function (event, ui) { //item selected
+                      AutoCompleteSelectHandler(event, ui)
+                  },
+                  minLength: 2,
+              });
+          });
+          function AutoCompleteSelectHandler(event, ui)
+          {
+              var selectedObj = ui.item;
+          }
+      </script>
+        <!-- Search -->
+        <div class="header-search">
+          <form action="/search/" method="post">
+              {% csrf_token %}
+              <input id="query" name="query" class="input search-input" type="text" placeholder="Rechercher un produit">
+              <select name="catid"  class="input search-categories form-control" >
+                  <option value="0">Toutes les catégories</option>
+
+                  {% load mptt_tags %}
+
+                  {% recursetree category_filter %}
+                      {% if node.is_leaf_node %}
+                          <option value="{{ node.id }}">{{ node.title }}</option>
+                      {% endif %}
+                      {% if not node.is_leaf_node %}
+                          <optgroup label="{{ node.title }}">
+                              {{ children }}
+                          </optgroup>
+                      {% endif %}
+                  {% endrecursetree %}
+              </select>
+              <button class="search-btn"><i class="fa fa-search"></i></button>
+          </form>
+      </div>
+      <!-- /Search -->
+      </div>
+      <div class="pull-right">
+        <ul class="header-btns">
+          
+          
+          {% if user.is_authenticated %}
+          <!-- Account -->
+          <li class="header-account dropdown default-dropdown">
+            <div >
+              <a href="{% url 'profile:profile' %}">
+                <div class="header-btns-icon">
+                  {% if userprofile.image.url is not None %}
+                  <img src="{{ userprofile.image.url }}" style="height: 40px; width:40px; border-radius: 20%">
+                  {% else %}
+                  <i class="fa fa-user-o"></i>
+                  {% endif %}
+                  
+                </div>
+                <strong class="text-uppercase">{{user.username}} <i class="fa fa-caret-down"></i></strong>
+              </a>
+              
+            </div>
+            <a href="{% url 'profile:logout' %}" class="text-uppercase">Logout</a>
+            {% comment %} <ul class="custom-menu">
+              <li><a href="{% url 'profile:profile' %}" ><i class="fa fa-user-o"></i> My Account</a></li>
+              <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+              <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+              <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+              <li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
+              <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+            </ul> {% endcomment %}
+          </li>
+          <!-- /Account -->
+          {% else %}
+          <!-- Account -->
+          <li class="header-account dropdown default-dropdown">
+            <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+              <div class="header-btns-icon">
+                <i class="fa fa-user-o"></i>
+              </div>
+              <strong class="text-uppercase">Mon compte <i class="fa fa-caret-down"></i></strong>
+            </div>
+            <a href="{% url 'profile:login' %}" class="text-uppercase">Login</a> / <a href="{% url 'profile:register' %}" class="text-uppercase">Sign up</a>
+            {% comment %} <ul class="custom-menu">
+              <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+              <li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
+              <li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
+              <li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
+              <li><a href="#"><i class="fa fa-unlock-alt"></i> Login</a></li>
+              <li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+            </ul> {% endcomment %}
+          </li>
+          <!-- /Account -->
+          {% endif %}
+
+          <!-- Cart -->
+          {% if user.is_authenticated %}
+          <li class="header-cart dropdown default-dropdown">
+           <a href="{% url 'order:shopcart' %}">
+             <div class="header-btns-icon">
+               <i class="fa fa-shopping-cart"></i>
+               <span class="qty" style="background:#FABC07 ">{{userprofile.countcard}}</span>
+             </div>
+             <strong class="text-uppercase">Mon panier:</strong>
+             <br>
+             <span>{{userprofile.amountcard | floatformat:2 }} D.A</span>
+           </a>
+         </li>
+          {% else %}
+          <li class="header-cart dropdown default-dropdown">
+           <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+             <div class="header-btns-icon">
+               <i class="fa fa-shopping-cart"></i>
+               <span class="qty">0</span>
+             </div>
+             <strong class="text-uppercase">Mon panier:</strong>
+             <br>
+             <span>0 D.A</span>
+           </a>
+         </li> 
+         
+          {% endif %}
+          
+         <!-- /Cart -->
+          
+          
+         
+
+          <!-- Mobile nav toggle-->
+          <li class="nav-toggle">
+            <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+          </li>
+          <!-- / Mobile nav toggle -->
+        </ul>
+      </div>
+    </div>
+    <!-- header -->
+  </div>
+  <!-- container -->
+</header>
+<!-- /HEADER -->
