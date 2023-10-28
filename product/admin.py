@@ -63,7 +63,7 @@ class ProductImageInline(admin.TabularInline):
     extra = 1
 
 
-class ProductVariantsInline(admin.TabularInline):
+class ProductVariantsInline(admin.StackedInline):
     model = Variants
     readonly_fields = ("image_tag",)
     extra = 1
