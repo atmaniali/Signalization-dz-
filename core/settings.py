@@ -98,6 +98,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 #         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+# EMAIL : moumen@signalitique-solutions.com PWD : BQ]G{r%W=PJj
+# ACTIVATE ENV source /home/signal73/virtualenv/repositories/Signalization-dz-/3.9/bin/activate && cd /home/signal73/repositories/Signalization-dz-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
