@@ -36,6 +36,10 @@ class Category(MPTTModel):
 
     image_tag.short_description = "Image"
 
+    class Meta:
+        verbose_name = "category"
+        verbose_name_plural = "categories"
+
     @property
     def hash_pk(self):
         return urlsafe_base64_encode(force_bytes(self.id))
@@ -92,8 +96,8 @@ class Product(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     fiche = models.FileField(upload_to="product/", blank=True, null=True)
     image = models.ImageField(blank=True, null=True, upload_to="images/")
-    price = models.FloatField()
-    amount = models.IntegerField()
+    price = models.FloatField(default=0)
+    amount = models.IntegerField(default=0)
     minamount = models.IntegerField()
     variant = models.CharField(max_length=400, choices=VARIANTS, default="None")
     detail = RichTextUploadingField()
@@ -105,6 +109,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # TODO update my model to make amount to default
     def __str__(self) -> str:
         return self.title
 
@@ -147,6 +152,10 @@ class Images(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+    class Meta:
+        verbose_name = "image"
+        verbose_name_plural = "images"
 
 
 class Comment(models.Model):
@@ -247,6 +256,10 @@ class Adehesive_Appearence(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    class Meta:
+        verbose_name = "adehesive Appearance"
+        verbose_name_plural = "adehesive Appearances"
+
 
 class Type(models.Model):
     CHOICE = (
@@ -290,7 +303,7 @@ class Variants(models.Model):
         if self.title is not None:
             return self.title
         else:
-            return ""
+            return "Variant"
 
     def image_tag(self):
         img = Images.objects.get(id=self.image_id)

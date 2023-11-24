@@ -5,21 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>Reset Password</title>
+    <title>Order Command</title>
 </head>
 <body>
     <div class="container">
         {% load static %}
         
-        <img src="{{site}}{{setting.logo.url}}" width="200px">
+<!--        <img src="{{site}}{{setting.logo.url}}" width="200px">-->
         <br> <br>
         <div style="">
-            <h1>Confirmation de commande</h1>
+            <h1 style="color:#FABC07">Confirmation de commande</h1>
             <p>{{name}}, Merci pour votre commande!</p>
             <p>order code : <strong>{{ordercode}}</strong> </p>
         </div>
         
-        <h2>Récapitulatif de commande</h2>
+        <h2 style="color:#FABC07">Récapitulatif de commande</h2>
         <p>{{current_datetime }}</p>
         <br>
         <table class="shopping-cart-table table table-hover" style="border: 1px solid black;border-collapse: collapse;" >

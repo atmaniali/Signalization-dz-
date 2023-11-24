@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 import logging
+from user.utils import send_email_with_html_body
 
 from home.models import (
     FAQ,
@@ -29,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    logger.warning(request, "INDEX == HOME")
+    # logger.warning(request, "INDEX == HOME")
     template_name = "home/index.html"
     category_filter = Category.objects.all()  # filter and search in head.html
     settings = Settings.objects.get_or_create(
@@ -215,6 +216,7 @@ def faq(request):
     return render(request, template_name, context)
 
 
+# @login_required(login_url="profile:login")
 def rating(request):
     template_name = "home/rating.html"
     category_filter = Category.objects.all()  # filter and search in head.html

@@ -38,6 +38,10 @@ class Settings(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    class Meta:
+        verbose_name = "setting"
+        verbose_name_plural = "settings"
+
 
 class ContactMessage(models.Model):
     STATUS = (

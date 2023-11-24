@@ -7,9 +7,34 @@
     <title>Document</title>
 </head>
 <body>
-    <h3>Test send mail with django</h3>
-    <strong></strong>
-    <p style="color: red;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt deleniti optio, omnis assumenda est nesciunt magnam eius dignissimos dolores, nostrum totam incidunt suscipit ratione similique. Minima officia repellendus necessitatibus tenetur natus iusto possimus eveniet quaerat quasi obcaecati facere culpa harum, nesciunt explicabo veritatis quidem quas sint asperiores quisquam? Corrupti molestias sed maiores vero, odit iure quam nobis, blanditiis in est ratione possimus autem aliquid! A accusamus ipsa sed officia commodi. Eius, eveniet maiores expedita nobis commodi laudantium deleniti cumque ratione culpa dolor alias debitis officia illum quas assumenda. Expedita eius ea aperiam repellat itaque officia nemo id minima. Quisquam, voluptas!</p>
-    <em>donald programmeur email donaldtedom0@gmail.com</em>
+    <h2 style="color: #FABC07">Merci de nous rejoindre sur signaletique-solutions</h2>
+    <strong>
+    Bonjour {{user_name }}
+    </strong>
+    <p style="">
+        Votre inscription nous montre que vous êtes intéressé par les solutions de signalétique pour votre entreprise. Nous sommes fiers de pouvoir vous proposer une gamme complète de produits et de services qui répondent à tous vos besoins.
+    </p>
+    </br>
+    <p>
+        Notre équipe de professionnels est à votre disposition pour vous aider à choisir les solutions de signalétique les plus adaptées à votre activité. Nous vous accompagnerons tout au long de votre projet, de la conception à l'installation.
+    </p>
+    <br>
+    <p>
+        Nous vous souhaitons une excellente expérience sur signaletique-solutions.
+    </p>
+    <br>
+    <p>
+        A bientôt,
+    </p>
+
+    <h3 style="color:#FABC07">
+        Call to action:
+    </h3>
+    <ul>
+        <li>Visitez notre site web pour en savoir plus sur nos solutions : <a href={{site}} style="color: #FABC07">signaletique-solutions</a> </li>
+        <li>
+            Contactez-nous pour obtenir un devis : <span style="font-style:italic">{{ setting.smtpemail }}</span> ou <span>{{ setting.phone }}</span>
+        </li>
+    </ul>
 </body>
 </html>

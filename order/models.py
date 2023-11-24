@@ -72,7 +72,8 @@ class Order(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.user.first_name
+        # TODO: hadi zidha fl main project
+        return str(self.user)
 
     @property
     def hash_pk(self):
@@ -90,7 +91,7 @@ class OrderProduct(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     variant = models.ForeignKey(
-        Variants, on_delete=models.SET_NULL, blank=True, null=True
+        Variants, on_delete=models.CASCADE, blank=True, null=True
     )  # relation with varinat
     quantity = models.IntegerField()
     visual = models.CharField(max_length=300, blank=True, null=True)

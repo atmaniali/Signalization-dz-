@@ -145,7 +145,8 @@ def orderproduct(request):
             # 'https://%s/' % (Site.objects.get_current().domain)
             site = "https://%s/" % (Site.objects.get_current().domain)
             recevers = [email]
-            template = "email/order_email.html"
+            # TODO sent order
+            template = "user/email/order_email.html"
             orders = OrderProduct.objects.filter(
                 user_id=current_user.id, order_id=data.id
             )

@@ -8,6 +8,7 @@ from home import views as myviews
 
 admin.site.site_header = "Moumen Panel"
 urlpatterns = [
+    # path("", include("admin_soft.urls")),
     path("admin/", include("admin_honeypot.urls")),
     path("moumen-admin/", admin.site.urls),
     path("", include("home.urls")),

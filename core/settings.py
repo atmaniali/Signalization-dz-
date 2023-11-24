@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # "admin_soft.apps.AdminSoftDashboardConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -105,7 +106,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "ecommerce",
         "USER": "root",
-        "PASSWORD": "admin",  # pw_generate: N(*VCZ_8YP0D
+        "PASSWORD": "admin",  # pw_generate: Ck?&i?+BQ(x?
         "HOST": "localhost",
         "PORT": "3306",
     }
@@ -174,7 +175,7 @@ CKEDITOR_CONFIGS = {
 
 # django auto logout
 AUTO_LOGOUT = {
-    "IDLE_TIME": timedelta(minutes=60),
+    "IDLE_TIME": timedelta(minutes=15),
     "REDIRECT_TO_LOGIN_IMMEDIATELY": True,
     "MESSAGE": "The session has expired. Please login again to continue.",
 }
@@ -209,10 +210,35 @@ LOGGING = {
 }
 
 # Email
-DEFAULT_FROM_EMAIL = config("MY_EMAIL_HOST_USER")
+# DEFAULT_FROM_EMAIL = config("MY_EMAIL_HOST_USER")
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "django.core.mail.backends.smtp.EmailBackend"  # "mail.signaletique-solutions.com"  # "sandbox.smtp.mailtrap.io"  # config("MY_EMAIL_HOST")
+# EMAIL_PORT = 465  # config("MY_EMAIL_PORT")
+# EMAIL_HOST_USER = "moumen@signaletique-solutions.com"  # "47e51209b1dd90"  # config("MY_EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = (
+#     "%A3]Jl12Osz,"  # "208c4b405959a6"  # config("MY_EMAIL_HOST_PASSWORD")
+# )
+# EMAIL_USE_TLS = config("MY_EMAIL_USE_TLS", cast=bool)
+
+# MAILTRAP CONFIG
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "sandbox.smtp.mailtrap.io"
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 465  # 587
+# EMAIL_HOST_USER = "47e51209b1dd90"
+# EMAIL_HOST_PASSWORD = "208c4b405959a6"
+
+
+# CPANEL MAIL CONFIG
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("MY_EMAIL_HOST")
-EMAIL_PORT = config("MY_EMAIL_PORT")
-EMAIL_HOST_USER = config("MY_EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("MY_EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = config("MY_EMAIL_USE_TLS", cast=bool)
+EMAIL_HOST = "mail.signaletique-solutions.com"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "moumen@signaletique-solutions.com"
+EMAIL_HOST_PASSWORD = "%A3]Jl12Osz,"
+LOGIN_REDIRECT_URL = "/"
+DEFAULT_FROM_EMAIL = "moumen@signaletique-solutions.com"
+# new psw email cpanel :  %A3]Jl12Osz,
+
+# dz auth 2 fact =

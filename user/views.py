@@ -21,6 +21,10 @@ from home.models import Settings
 from user.models import User, UserProfile
 from user.utils import send_email_with_html_body
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # Create your views here.
 
 
@@ -78,6 +82,7 @@ def register_user(request):
     template_name = "user/user/signup_form.html"
     category_filter = Category.objects.all()  # filter and search in head.html
     setting = Settings.objects.get(id=1)  # information global of site
+    # numero = setting.phone
     # form = SignUpForm(request.POST or None)
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -87,19 +92,38 @@ def register_user(request):
             password = form.cleaned_data.get("password1")
             email = form.cleaned_data.get("email")  # with todo
             user = authenticate(request, email=email, password=password)
+            user.username = username
+            user.save()
             login(request, user)
             current_user = request.user
             data = UserProfile()
             data.user_id = current_user.id
             data.save()
+            logger.info("🥸 creation of user")
+            print("🎯 Registration user ")
             # TODO send mail registration
-            subject = "Test Email"
-            template = "email/registration_email.html"
-            ctx = {"email": email, "date": datetime.today().date}
+            subject = "Creation d'un compte signalitique-solutions"
+            template = "user/email/registration_mail.html"
+            # user / email / registration_mail.html
+            site = "https://%s/" % (Site.objects.get_current().domain)
+            ctx = {
+                "email": email,
+                "date": datetime.today().date,
+                "user_name": username,
+                "numero": "09",
+                "site": site,
+                "setting": setting,
+            }
+            # "user_name": "user name",
+            # "numero": "0668999985",
             receivers = [email]
+            print(
+                f" function mail prepar 💖 subject : {subject} "
+                f"\t context {ctx} \t receivers {receivers} \t template {1}"
+            )
             has_send = send_email_with_html_body(
                 subjet=subject, context=ctx, recevers=receivers, template=template
-            )
+            )  #
             if has_send:
                 # TODO added but not tested
                 messages.success(request, "Your account has been created!")
@@ -207,7 +231,7 @@ def reset_password(request):
         if user:
             subject = "Reset Password"
             recevers = [email]
-            template = "email/reset_password.html"
+            template = "user/email/reset_password.html"
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
             token = uuid.uuid4()
             current_datetime = datetime.now()
@@ -262,9 +286,11 @@ def change_password(request, uidb64, token):
     """
     url = request.META.get("HTTP_REFERER")
     template_name = "user/user/user_forget_password.html"
+    print(" 😵😵 uidb64 ", uidb64)
     user_id = force_str(urlsafe_base64_decode(uidb64))
     # user_id = int
     user = User.objects.get(pk=user_id)
+    # user = User.objects.get(pk=1)
     # form = SetPasswordForm(user)
     # return HttpResponse(form)
     if request.method == "POST":
@@ -459,5 +485,11 @@ def delete_favorit(request, id):
     return HttpResponseRedirect(url)
 
 
-def ind(self):
-    pass
+def test_mail_template(request):
+    context = {
+        "user_name": "user name",
+        "numero": "0668999985",
+        "email": "atmaniali97@gmail.com",
+    }
+    template = "user/email/registration_mail.html"
+    return render(request, template, context)

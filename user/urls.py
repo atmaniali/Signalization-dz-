@@ -24,5 +24,6 @@ urlpatterns = [
     path("reset/", views.reset_password, name="reset_password"),
     path("done/", views.email_sent_done, name="email_sent_done"),
     path("<uidb64>/<token>/", views.change_password, name="user_reset_password"),
+    path("test/", views.test_mail_template, name="test")
     # TODO crypte and decrypte every url with {id} in parametre
 ]
